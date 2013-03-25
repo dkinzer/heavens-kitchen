@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+# Aliases for Vagrant/Chef kitchen commands.
+box="vagrant@10.10.10.2"
+key="~/.vagrant.d/insecure_private_key"
+solo="knife solo"
+librarian="librarian-chef"
+ 
+alias librarian="$librarian"
+alias cook="librarian install && $solo cook -VV $box -i $key"
+alias prepare="librarian install && $solo prepare -VV $box -i $key"
+alias clean="$solo clean $box -i $key"
+alias up="vagrant up"
+alias down="vagrant halt"
+alias vssh="ssh vagrant@10.10.10.2 -i $key"
+
