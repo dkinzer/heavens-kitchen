@@ -4,7 +4,6 @@ apps='curl git virtualbox vim libxslt1-dev libxml2-dev zlib1g-dev'
 gems='vagrant knife-solo librarian foodcritic'
 has_rvm=$(which rvm)
 ruby_version='1.9.3'
-check_rvm_install=$(ruby -ropenssl -e "puts :OK")
 
 for app in $apps
 do
@@ -27,6 +26,7 @@ do
   gem install $gem --no-rdoc --no-ri
 done 
 
+check_rvm_install=$(ruby -ropenssl -e "puts :OK")
 if [ $check_rvm_install != "OK" ];
 then
   rvm requirements run force
