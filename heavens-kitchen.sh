@@ -47,8 +47,10 @@ if [ -f ~/.bash_hk ];
 fi" >> ~/.bashrc 
 fi
 
-# Set vim as our git editor.
+# Git configurations
 git config --global core.editor "vim"
+git config --global --add color.ui true
+
 
 # Solarize the terminal.
 curl https://raw.github.com/seebi/dircolors-solarized/master/dircolors.ansi-dark -o ~/.dircolors
