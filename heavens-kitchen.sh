@@ -51,6 +51,18 @@ fi
 git config --global core.editor "vim"
 git config --global --add color.ui true
 
+if [ -z $(git config user.name) ]; then
+  echo "Enter your git username: "
+  read username
+  git config --global --add user.name "$username"
+fi
+
+if [ -z $(git config user.email) ]; then
+  echo "Enter your email address: "
+  read email
+  git config --global --add user.email "$email"
+fi
+
 
 # Solarize the terminal.
 curl https://raw.github.com/seebi/dircolors-solarized/master/dircolors.ansi-dark -o ~/.dircolors
