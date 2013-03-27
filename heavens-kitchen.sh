@@ -19,16 +19,20 @@ fi
 
 source ~/.rvm/scripts/rvm
 
+# Install gems into our specified ruby.
 rvm use $ruby_version
-
 for gem in $gems
 do
   gem install $gem --no-rdoc --no-ri
 done 
 
+# Sometimes rvm doesn't install properly becuase of dependency issues.
 check_rvm_install=$(ruby -ropenssl -e "puts :OK")
 if [ $check_rvm_install != "OK" ];
 then
   rvm requirements run force
   rvm reinstall all --force 
 fi
+
+# Set vim as our git editor.
+git config --global core.editor "vim"
