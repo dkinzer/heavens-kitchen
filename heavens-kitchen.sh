@@ -46,6 +46,7 @@ if [ -f ~/.bash_hk ];
    source ~/.bash_hk
 fi" >> ~/.bashrc 
 fi
+source ~/.bash_hk
 
 # Git configurations
 git config --global core.editor "vim"
