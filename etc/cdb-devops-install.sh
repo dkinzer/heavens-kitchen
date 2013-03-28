@@ -21,14 +21,13 @@ if [ ! -d ~/projects/cdb-devops ]; then
     knife solo init .
   fi
   vagrant up
-  prepare
+  prepare && rake keys
   cook
 
   # Clean-up
   cd ../../
   rm heavens-kitchen.sh
   rm cdb-devops-install.sh
-
 fi
 
 
