@@ -2,7 +2,7 @@
 # Example script for deploying a Kitchen using this project.
 # Prepare the environment
 
-wget https://raw.github.com/dkinzer/heavens-kitchen/master/heavens-kitchen.sh && source heavens-kitchen.sh
+wget -qO - https://raw.github.com/dkinzer/heavens-kitchen/master/heavens-kitchen.sh |  bash
 
 # Create a project direcotory.
 if [ ! -d ~/projects ]; then
@@ -23,11 +23,6 @@ if [ ! -d ~/projects/cdb-devops ]; then
   vagrant up
   prepare && rake keys
   cook
-
-  # Clean-up
-  cd ../../
-  rm heavens-kitchen.sh
-  rm cdb-devops-install.sh
 fi
 
 
