@@ -12,7 +12,7 @@ done
 
 if [ -z $has_rvm ];
 then 
-  curl -L https://get.rvm.io | bash -s stable --ruby=$ruby_version
+  curl -L https://get.rvm.io | bash -s stable --ruby=$ruby_version --autolibs=3
 else
   rvm get stable  
 fi
