@@ -5,7 +5,7 @@ function log {
 }
 
 apps='curl git virtualbox vim exuberant-ctags build-essential bison openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev'
-gems='vagrant knife-solo librarian foodcritic'
+gems='bundler vagrant knife-solo librarian foodcritic'
 
 has_rvm=$(which rvm)
 ruby_version='1.9.3'
@@ -20,6 +20,10 @@ then
 fi
 
 source ~/.rvm/scripts/rvm
+if [[ ! $(rvm list | grep -F $ruby_version) ]]; then
+  log "Install ruby $ruby_version..."
+  rvm install $ruby_version --autolibs=3
+fi
 
 # Install gems into our specified ruby.
 rvm use $ruby_version
