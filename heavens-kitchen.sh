@@ -1,7 +1,8 @@
 #!/bin/bash
 
-apps='curl git virtualbox vim exuberant-ctags libxslt1-dev libxml2-dev zlib1g-dev'
+apps='curl git virtualbox vim exuberant-ctags build-essential bison openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev'
 gems='vagrant knife-solo librarian foodcritic'
+
 has_rvm=$(which rvm)
 ruby_version='1.9.3'
 
@@ -23,7 +24,7 @@ source ~/.rvm/scripts/rvm
 rvm use $ruby_version
 for gem in $gems
 do
-  gem install $gem --no-rdoc --no-ri >/dev/null || exit 1
+  gem install $gem --no-rdoc --no-ri >/dev/null || return 1
 done 
 
 # Sometimes rvm doesn't install properly becuase of dependency issues.
