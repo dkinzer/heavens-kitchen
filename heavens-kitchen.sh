@@ -1,21 +1,22 @@
 #!/bin/bash
 
+function log {
+  echo -e "\e[1;31m>> \e[1;34m$1\e[0m"
+}
+
 apps='curl git virtualbox vim exuberant-ctags build-essential bison openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev'
 gems='vagrant knife-solo librarian foodcritic'
 
 has_rvm=$(which rvm)
 ruby_version='1.9.3'
 
-for app in $apps
-do
-  sudo apt-get -y install $app
-done
+log "Install some dev pacakages..."
+sudo apt-get -y install $apps
 
 if [ -z $has_rvm ];
 then 
+  log "Install rvm..."
   curl -L https://get.rvm.io | bash -s stable --ruby=$ruby_version --autolibs=3
-else
-  rvm get stable  
 fi
 
 source ~/.rvm/scripts/rvm
@@ -24,6 +25,7 @@ source ~/.rvm/scripts/rvm
 rvm use $ruby_version
 for gem in $gems
 do
+  log "Install the $gem gem..."
   gem install $gem --no-rdoc --no-ri >/dev/null || return 1
 done 
 
@@ -31,12 +33,13 @@ done
 check_rvm_install=$(ruby -ropenssl -e "puts :OK")
 if [ $check_rvm_install != "OK" ];
 then
+  log "Reinstalling rvm..."
   rvm requirements run force
   rvm reinstall all --force 
 fi
 
-# Add some kitchen related aliases.
-curl https://raw.github.com/dkinzer/heavens-kitchen/master/.bash_hk -o ~/.bash_hk
+log "Add kitchen related aliases..."
+curl https://raw.github.com/dkinzer/heavens-kitchen/master/.bash_hk -o ~/.bash_hk || return 1
 has_kitchen_aliases=$(grep '.bash_hk' ~/.bashrc | head -n 1)
 if [ -z "$has_kitchen_aliases" ];
 then 
@@ -49,7 +52,7 @@ fi" >> ~/.bashrc
 fi
 source ~/.bash_hk
 
-# Git configurations
+log "Configure Git..."
 git config --global core.editor "vim"
 git config --global --add color.ui true
 
@@ -67,6 +70,7 @@ fi
 
 
 # Solarize the terminal.
+log "Solarizing the terminal..."
 curl https://raw.github.com/seebi/dircolors-solarized/master/dircolors.ansi-dark -o ~/.dircolors
 eval `dircolors ~/.dircolors`
 gconftool-2 --set "/apps/gnome-terminal/profiles/Default/use_theme_background" --type bool false
