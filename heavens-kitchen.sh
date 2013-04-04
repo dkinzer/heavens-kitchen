@@ -23,7 +23,7 @@ source ~/.rvm/scripts/rvm
 rvm use $ruby_version
 for gem in $gems
 do
-  gem install $gem --no-rdoc --no-ri
+  gem install $gem --no-rdoc --no-ri >/dev/null || exit 1
 done 
 
 # Sometimes rvm doesn't install properly becuase of dependency issues.
