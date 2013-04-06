@@ -29,7 +29,8 @@ fi
 rvm use $ruby_version
 for gem in $gems
 do
-  if [ -z $(which $gem) ];
+  has_gem=$(gem list $gem | grep $gem | wc -l)
+  if [ "$has_gem" -eq 0 ];
   then
     log "Install the $gem gem..."
     gem install $gem --no-rdoc --no-ri >/dev/null || return 1
