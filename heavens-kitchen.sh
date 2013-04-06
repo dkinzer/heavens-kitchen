@@ -29,8 +29,11 @@ fi
 rvm use $ruby_version
 for gem in $gems
 do
-  log "Install the $gem gem..."
-  gem install $gem --no-rdoc --no-ri >/dev/null || return 1
+  if [ -z $(which $gem) ];
+  then
+    log "Install the $gem gem..."
+    gem install $gem --no-rdoc --no-ri >/dev/null || return 1
+  fi
 done 
 
 # Sometimes rvm doesn't install properly becuase of dependency issues.
