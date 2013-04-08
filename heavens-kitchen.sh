@@ -5,7 +5,7 @@ function log {
 }
 
 apps='curl git virtualbox vim exuberant-ctags build-essential bison openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev'
-gems='bundler vagrant knife-solo librarian foodcritic'
+gems='bundler vagrant knife-solo librarian foodcritic fog:1.8 veewee'
 
 has_rvm=$(which rvm)
 ruby_version='1.9.3'
@@ -29,11 +29,23 @@ fi
 rvm use $ruby_version
 for gem in $gems
 do
-  has_gem=$(gem list $gem | grep $gem | wc -l)
-  if [ "$has_gem" -eq 0 ];
+  IFS=':' read gem version <<< "$gem"
+  if [ -n "$version" ];
   then
-    log "Install the $gem gem..."
-    gem install $gem --no-rdoc --no-ri >/dev/null || return 1
+    has_gem=$(gem list $gem | grep $gem\.*$version | wc -l)
+    if [ "$has_gem" -eq 0 ];
+    then
+      log "Install the $gem gem..."
+      gem install $gem --version $version --no-rdoc --no-ri >/dev/null || return 1
+    fi
+  else
+    has_gem=$(gem list $gem | grep $gem | wc -l)
+    if [ "$has_gem" -eq 0 ];
+    then
+      log "Install the $gem gem..."
+      gem install $gem --no-rdoc --no-ri >/dev/null || return 1
+    fi
+
   fi
 done 
 
