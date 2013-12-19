@@ -1,7 +1,22 @@
 #!/bin/bash
 
+gem uninstall --quiet vagrant
+has_vagrant=$(which vagrant)
+if [ -z $has_vagrant ];
+then
+  wget -O /tmp/vagrant.deb https://dl.bintray.com/mitchellh/vagrant/vagrant_1.4.1_x86_64.deb
+  sha256sum=$(sha256sum /tmp/vagrant.deb | cut -f 1 -d " ")
+  sha256sum_expected='27748094f15ff708cd0d130e4a2e30e4722aecc562901a3f204e6e36dbe1013e'
+  if [ "$sha256sum" -eq "$sha256sum_expected" ];
+  then
+    sudo dpkg -i /tmp/vagrant.deb
+    rm /tmp/vagrant.deb
+  fi
+fi
+
 apps='curl git virtualbox vim exuberant-ctags libxslt1-dev libxml2-dev zlib1g-dev'
-gems='vagrant knife-solo librarian foodcritic'
+gems='knife-solo librarian foodcritic'
+
 has_rvm=$(which rvm)
 ruby_version='1.9.3'
 
