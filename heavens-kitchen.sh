@@ -14,6 +14,9 @@ then
   fi
 fi
 
+# Add the rackspace vagrant plugin.
+vagrant plugin install vagrant-rackspace
+
 apps='curl git virtualbox vim exuberant-ctags build-essential bison openssl libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev'
 gems='bundler knife-solo librarian foodcritic fog:1.8 veewee'
 
